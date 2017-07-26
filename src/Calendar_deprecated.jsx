@@ -14,7 +14,7 @@ class Calendar extends React.Component {
         this.state = {
             displayedDate: moment().startOf("month"),
             selectedDates: [],
-            dateRange: {}
+            dateRange: []
         };
         this.clearAll = this.clearAll.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
@@ -95,53 +95,33 @@ class Calendar extends React.Component {
         });
     }
     toggleSelectedWeekday(weekday) {
-        // No dateFrom and dateTo is supplied in this example
-        // Mock dateFrom and dateTo below, to be removed in the final application
+        const { selectedDates } = this.state;
+        // In real app we will use a dateFrom and dateTo from props;
         // const { dateFrom, dateTo } = this.props;
-        const { selectedDates, dateRange } = this.state;
-        const dateFrom = moment().add(-3, "months");
+
+        // Temporary dateFrom and dateTo assignment
+        let result = [...selectedDates];
+        const dates = [];
+        const indexes = []; // Indexes of common dates
+        const dateFrom = moment().add(-1, "year");
         const dateTo = moment();
-        const format = "DD-MM-YYYY";
-        let range = {};
-        if (Object.keys(dateRange).length == 0) {
-            while(dateFrom.add(1, "days").diff(dateTo) < 0) {
-                const cloned = dateFrom.clone();
-                range[cloned.format(format)] = cloned;
+
+        while(dateFrom.add(1, "days").diff(dateTo) < 0) {
+            if (dateFrom.format("dd") === weekday) {
+                dates.push(dateFrom.clone());
+                const index = selectedDates.findIndex(date => date.isSame(dateFrom, "day"));
+                if (index > -1) { indexes.push(index); }
             }
-            this.setState({ dateRange: range });
-        } else {
-            range = dateRange;
         }
-        let result = {};
-        selectedDates.forEach(date => {
-            result[date.format(format)] = date;
-        });
-        const weekdays = {};
-        const commonDates = {}; // Indexes of common dates
-        Object.keys(range).forEach(key => {
-            const value = range[key];
-            const valueFormat = value.format(format);
-            if (value.format("dd") === weekday) {
-                weekdays[valueFormat] = value;
-                if (result[valueFormat]) {
-                    commonDates[valueFormat] = value;
-                }
-            }
-        });
         // Select the missing dates if there are several already selected
-        const commonDatesKeys = Object.keys(commonDates);
-        const weekdaysKeys = Object.keys(weekdays);
-        if (weekdaysKeys.length > commonDatesKeys.length) {
-            weekdaysKeys.forEach(key => {
-                result[key] = weekdays[key];
-            });
+        if (dates.length > indexes.length) {
+            const difference = _.differenceWith(dates, selectedDates, (a, b) => a.isSame(b, "day"));
+            result.push(...difference);
         } else {
-            commonDatesKeys.forEach(key => {
-                delete result[key];
-            });
+            result = _.differenceWith(selectedDates, dates, (a, b) => a.isSame(b, "day"));
         }
         this.setState({
-            selectedDates: Object.values(result)
+            selectedDates: result
         });
 
     }
@@ -183,9 +163,9 @@ class Calendar extends React.Component {
                         <table className="calendar">
                             <thead>
                             <tr className="options">
-                                <td className="center-align"><i className="material-icons" onClick={this.previousMonth}>keyboard_arrow_left</i></td>
-                                <td className="year-month center-align" colSpan="5">{this.renderMonthLabel()}</td>
-                                <td className="center-align"><i className="material-icons" onClick={this.nextMonth}>keyboard_arrow_right</i></td>
+                                <td><i className="material-icons" onClick={this.previousMonth}>keyboard_arrow_left</i></td>
+                                <td className="year-month" colSpan="5">{this.renderMonthLabel()}</td>
+                                <td><i className="material-icons" onClick={this.nextMonth}>keyboard_arrow_right</i></td>
                             </tr>
                             <DayNames
                                 selectWeekdays={this.toggleSelectedWeekday}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 
+// Setting Polish locale in momentJS
 moment.locale("pl");
 const weekdays = moment.weekdaysMin(true);
 
@@ -11,7 +12,6 @@ class DayNames extends Component {
         this.selectWeekdays = this.selectWeekdays.bind(this);
     }
     selectWeekdays(e) {
-        console.log("Selected!", $(e.target).text());
         this.props.selectWeekdays($(e.target).text());
     }
     render() {
