@@ -1,0 +1,146 @@
+/*
+ *  Day counter available for calendar
+ */
+ button.clear-all {
+     background: $blue;
+     margin-top: 16px;
+     &:hover {
+         background: darken($blue, 10%);
+     }
+ }
+.day-counter {
+    background: $blue;
+    padding: 10px;
+    color:#fff;
+}
+.calendar {
+    width: 100%;
+    thead, tbody {
+        text-align: center;
+    }
+    thead {
+        .options {
+            background: #333333;
+            color: #fff;
+            vertical-align: middle;
+
+            i {
+                cursor: pointer;
+                &:hover {
+                    color: $blue;
+                }
+            }
+
+            .year-month {
+                text-transform: capitalize;
+            }
+            td {
+                border-right: 1px solid rgba(51, 51, 51, 0.05);
+                padding: 7px;
+            }
+        }
+        .week-days {
+            background: $blue;
+            color: #fff;
+            td {
+                border-right: 1px solid rgba(51, 51, 51, 0.05);
+                font-weight: bold;
+                padding: 7px;
+                cursor: pointer;
+                &:hover {
+                    background: lighten($blue, 15%);
+                }
+            }
+        }
+    }
+    tbody {
+        border-left: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        border-right: 1px solid #eee;
+
+        tr td {
+            border-left: 1px solid rgba(51, 51, 51, 0.05);
+            border-bottom: 1px solid rgba(51, 51, 51, 0.05);
+            cursor: pointer;
+            padding: 8px;
+            &.active, &.active:hover, &.active.not-current {
+                background: #CDDC39;
+                color:#333;
+                font-weight: bold;
+                text-shadow: 1px 1px 1px rgba(255,255,255,.8);
+            }
+            &:hover {
+                background: #e7fcff;
+            }
+            &.not-current {
+                color: #bbb;
+                background: #eeeeee;
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    .calendar {
+        width: 100%;
+        thead, tbody {
+            text-align: center;
+        }
+        thead {
+            .options {
+                background: #333333;
+                color: #fff;
+                vertical-align: middle;
+
+                i {
+                    cursor: pointer;
+                    &:hover {
+                        color: $blue;
+                    }
+                }
+
+                .year-month {
+                    text-transform: capitalize;
+                }
+                td {
+                    border-right: 1px solid rgba(51, 51, 51, 0.05);
+                    padding: 1px;
+                }
+            }
+            .week-days {
+                background: $blue;
+                color: #fff;
+                td {
+                    border-right: 1px solid rgba(51, 51, 51, 0.05);
+                    font-weight: bold;
+                    padding: 1px;
+                }
+            }
+        }
+        tbody {
+            border-left: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            border-right: 1px solid #eee;
+
+            tr td {
+                border-left: 1px solid rgba(51, 51, 51, 0.05);
+                border-bottom: 1px solid rgba(51, 51, 51, 0.05);
+                cursor: pointer;
+                padding: 1px;
+                &.active, &.active:hover, &.active.not-current {
+                    background: #CDDC39;
+                    color:#333;
+                    font-weight: bold;
+                    text-shadow: 1px 1px 1px rgba(255,255,255,.8);
+                }
+                &:hover {
+                    background: #e7fcff;
+                }
+                &.not-current {
+                    color: #bbb;
+                    background: #eeeeee;
+                }
+            }
+        }
+    }
+}
