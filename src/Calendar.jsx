@@ -119,7 +119,6 @@ class Calendar extends React.Component {
         } else {
             result = _.differenceWith(selectedDates, dates, (a, b) => a.isSame(b, "day"));
         }
-        console.log("result:", result);
         this.setState({
             selectedDates: result
         });
@@ -150,7 +149,6 @@ class Calendar extends React.Component {
             if (this.props.onChange) {
                 this.props.onChange();
             }
-            console.log("Selected dates:", this.state.selectedDates);
         });
 
     }
